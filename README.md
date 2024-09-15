@@ -12,6 +12,17 @@ cd ai-frontend
 npm install
 ```
 
+## เปลี่ยน Branch
+
+```bash
+git branch "ใส่ชื่อของตัวเอง"
+
+git checkout "ชื่อ"
+
+#ไม่ต้องมีฟันหนู
+
+```
+
 ## Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
