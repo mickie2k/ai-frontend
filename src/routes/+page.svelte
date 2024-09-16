@@ -12,22 +12,7 @@
 <section>
 	<h1 class="text-3xl font-bold underline text-red-950">Hello world!</h1>
 
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+	
 </section>
 
 <style>
