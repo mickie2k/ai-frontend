@@ -2,6 +2,7 @@
 	import Counter from './Counter.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import Banner from './Banner.svelte';
 </script>
 
 <svelte:head>
@@ -10,6 +11,7 @@
 </svelte:head>
 
 <section>
+	<Banner/>
 	<h1 class="text-3xl font-bold underline text-red-950">Hello world!</h1>
 
 	
