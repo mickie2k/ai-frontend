@@ -1,5 +1,6 @@
 <script>
 	import preview from '$lib/images/Preview.webp';
+	import { env } from '$env/dynamic/public'
 	import { resultProductID } from './store.js';
 	let input;
 	let image;
@@ -40,29 +41,34 @@
     }
 
 	function onSubmit(){
-		// const formData = new FormData();
+		const formData = new FormData();
 		// formData.append('selection', selected);
 		// formData.append('value' , files.name)
-        // formData.append('key', files);
-		// const upload = fetch(env.PUBLIC_URL+'/file', {
-        //     method: 'POST',
-        //     body: formData
-        // }).then((response) => response.json()).then((result) => {
-        //     console.log('Success:', result);
-		// 	recommend = result
-        // })
-        //         .catch((error) => {
-        //             console.error('Error:', error);
-        //         });
-		recommend =[
-			{
-				"id": "39386"
-			},
-			{
-				"id": "21379"
-			},
-    	]
-		resultProductID.set(recommend)
+        formData.append('file', files);
+		const upload = fetch(env.PUBLIC_URL+'/upload', {
+            method: 'POST',
+            body: formData,
+			headers: {
+					'ngrok-skip-browser-warning': 'true',
+                },
+        }).then((response) => response.json()).then((result) => {
+            console.log('Success:', result);
+			recommend = result
+			console.log(recommend)
+			resultProductID.set(recommend)
+        })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+		// recommend =[
+		// 	{
+		// 		"id": "39386"
+		// 	},
+		// 	{
+		// 		"id": "21379"
+		// 	},
+    	// ]
+		
     }
 	
 </script>

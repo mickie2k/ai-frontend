@@ -10,11 +10,19 @@
 
 
 	onMount(async () => {
-	
-		const response = await fetch(env.PUBLIC_URL+'/Frontpage?limit=10');
+		console.log("fetching frontpage");
+		const response = await fetch(env.PUBLIC_URL+'/Frontpage?limit=10',
+            {
+                method: "GET",
+                headers: {
+					'ngrok-skip-browser-warning': 'true',
+                    "Content-Type": "application/json",
+                },
+            });
 		if (!response.ok) {
         	throw new Error(`HTTP error! status: ${response.status}`);
     	}
+		
 		products = await response.json();
 		console.log(products)
 		
@@ -26,13 +34,31 @@
 	})
 
 	async function fetchResult(){
-		const response = await fetch(env.PUBLIC_URL+'/getMultiple?' + new URLSearchParams({
-				id: result.map(result=>result.id).join(',')  }).toString())
-		if (!response.ok) {
-        	throw new Error(`HTTP error! status: ${response.status}`);
-    	}
-		resultProducts = await response.json();
-	
+		try {
+        // Make sure the env.PUBLIC_URL is correctly set
+        const ids = result.map(result => result.id).join(',');
+        const response = await fetch(`${env.PUBLIC_URL}/getMultiple?ids=${ids}`,{
+			headers: {
+                'ngrok-skip-browser-warning': 'true',
+                },
+		});
+
+        // Check if the response is okay
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Parse the JSON response
+        resultProducts = await response.json();
+        console.log('Fetched products:', resultProducts); // Log the results
+
+        // Assuming you want to store the result somewhere, like a Svelte store
+        // For example:
+        // productsStore.set(resultProducts);
+
+    } catch (error) {
+        console.error('Error fetching results:', error);
+    }
 
 	}
 
