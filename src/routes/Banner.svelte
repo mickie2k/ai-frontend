@@ -1,12 +1,13 @@
 <script>
 	import preview from '$lib/images/Preview.webp';
+	import { resultProductID } from './store.js';
 	let input;
 	let image;
 	let show = false;
 	let isSelect= false;
     let selected;
 	let files;
-	export let recommend = []
+	let recommend = []
 
 	function onChange() {
 		files = input.files[0];
@@ -55,12 +56,13 @@
         //         });
 		recommend =[
 			{
-				"id": "17922"
+				"id": "39386"
 			},
 			{
-				"id": "7585"
+				"id": "21379"
 			},
     	]
+		resultProductID.set(recommend)
     }
 	
 </script>
@@ -76,10 +78,10 @@
 		</div>
 		<div class="bg-[#242424] text-white h-full flex flex-col justify-center items-center">
 			{#if isSelect }
-            <button on:click={back}>Back</button>
-            <span>{selected}</span>
+            <button on:click={back} class=" py-3 px-14 text-zinc-400  hover:text-zinc-50 "> &lt; Back</button>
+            
 				<div
-					class="flex w-[500px] h-[500px] overflow-hidden border-none mb-8 justify-center items-center"
+					class="flex w-[450px] h-[450px] overflow-hidden border-none mb-8 justify-center items-center"
 				>
 					{#if show == true}
 						<img bind:this={image} class="w-full h-full object-contain border-none" alt=" " />
@@ -87,7 +89,7 @@
 						<img src={preview} class="h-32 w-32 border-none" alt="Preview" />
 					{/if}
 				</div>
-				<div class="flex flex-col items-center gap-4">
+				<div class="flex flex-row items-center gap-4">
 					<!-- <span class="text-3xl">Drag and drop file here</span> -->
 
 					<input
@@ -100,15 +102,15 @@
 					/>
 					<label
 						for="file-upload"
-						class=" py-3 px-14 border rounded-full max-w-fit bottom-0 cursor-pointer"
+						class="py-3 px-14 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-full hover:text-zinc-50 hover:bg-zinc-700 cursor-pointer "
 					>
 						Browse File
 					</label>
 					{#if files}
-							<button class="" on:click={onSubmit}>Submit</button>
+							<button class="py-3 px-14  rounded-full text-black bg-gray-100 border border-zinc-600  hover:text-gray-900 hover:bg-gray-300" on:click={onSubmit}>Submit</button>
 					{:else}
 						
-						<button class="" disabled>Submit</button>
+						<button class="py-3 px-14 border rounded-full bg-gray-300 text-black cursor-not-allowed opacity-50 " disabled>Submit</button>
 					{/if}
 					
 				</div>

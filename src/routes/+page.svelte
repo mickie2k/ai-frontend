@@ -5,7 +5,7 @@
 	import Banner from './Banner.svelte';
 	import ProductList from './ProductList.svelte';
 	
-	$:result = []
+	// $:result = []
 
 </script>
 
@@ -15,14 +15,16 @@
 </svelte:head>
 
 <section>
-	<Banner bind:recommend={result}/>
+	<!-- <Banner bind:recommend={result}/> -->
+	 <Banner/>
 
-	<div class="grid grid-cols-4 gap-6 px-32 bg-white">
+	<div class="grid grid-cols-4 gap-6 px-32 bg-white w-full">
 		<div class="bg-black w-full ">
 			<!-- ใส่ filter ตรงนี้ -->
 		</div>
 		<div class="col-span-3">
-			<ProductList  result={result}/>
+			<!-- <ProductList  result={result}/> -->
+			<ProductList  />
 		</div>
 	</div>
 		

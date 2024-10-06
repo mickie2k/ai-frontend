@@ -1,23 +1,33 @@
 <script>
 	import ProductCard from './ProductCard.svelte';
 	import { onMount } from 'svelte';
-
-	export let result = [];
+	import { env } from '$env/dynamic/public'
+	import { resultProductID } from './store.js'
+ 
+	$: result = [];
 	let products = [];
 	let resultProducts = []
 
+
 	onMount(async () => {
-		const response = await fetch('/api/test');
+		console.log(env.PUBLIC_URL)
+		const response = await fetch(env.PUBLIC_URL+'/api/test');
 		products = await response.json();
 
 		
 	});
 
 
+	resultProductID.subscribe((value) => {
+		result = value
+	})
 
 	async function fetchResult(){
-		const responseRecommend = await fetch('/api/test');
-			resultProducts = await responseRecommend.json();
+		const response = await fetch(env.PUBLIC_URL+'/api/test?' + new URLSearchParams({
+				id: result.map(result=>result.id).join(',')  }).toString())
+		resultProducts = await response.json();
+	
+
 	}
 
 
@@ -30,7 +40,7 @@
 
 	{#if result.length > 0}
 		<h2 class="text-2xl font-bold tracking-tight text-gray-900">Results</h2>
-		<div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+		<div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mb-8">
 			{#each resultProducts.slice(0,5) as resultProduct}
 			
 			<ProductCard
