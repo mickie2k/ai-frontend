@@ -10,10 +10,13 @@
 
 
 	onMount(async () => {
-		console.log(env.PUBLIC_URL)
-		const response = await fetch(env.PUBLIC_URL+'/api/test');
+	
+		const response = await fetch(env.PUBLIC_URL+'/Frontpage?limit=10');
+		if (!response.ok) {
+        	throw new Error(`HTTP error! status: ${response.status}`);
+    	}
 		products = await response.json();
-
+		console.log(products)
 		
 	});
 
@@ -23,8 +26,11 @@
 	})
 
 	async function fetchResult(){
-		const response = await fetch(env.PUBLIC_URL+'/api/test?' + new URLSearchParams({
+		const response = await fetch(env.PUBLIC_URL+'/getMultiple?' + new URLSearchParams({
 				id: result.map(result=>result.id).join(',')  }).toString())
+		if (!response.ok) {
+        	throw new Error(`HTTP error! status: ${response.status}`);
+    	}
 		resultProducts = await response.json();
 	
 

@@ -1,8 +1,9 @@
 <script>
     import { resultProductID } from './store.js'
+    import { env } from '$env/dynamic/public'
     let search = ""
 	async function handleOnSubmit() {
-        const response = await fetch("api/searchbyname?" + new URLSearchParams({
+        const response = await fetch(env.PUBLIC_URL+"/searchbyname?" + new URLSearchParams({
 				name: search}))
         const result = await response.json();
 		console.log(search +" "+ result)

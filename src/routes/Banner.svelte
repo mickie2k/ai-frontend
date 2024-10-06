@@ -44,7 +44,7 @@
 		// formData.append('selection', selected);
 		// formData.append('value' , files.name)
         // formData.append('key', files);
-		// const upload = fetch('http://localhost:8080/file', {
+		// const upload = fetch(env.PUBLIC_URL+'/file', {
         //     method: 'POST',
         //     body: formData
         // }).then((response) => response.json()).then((result) => {
