@@ -3,14 +3,15 @@
 	import { onMount } from 'svelte';
 	import { env } from '$env/dynamic/public';
 	import { resultProductID } from './store.js';
-
+	import { scrollRef, scrollElement } from 'svelte-scrolling'
 	$: result = [];
 	let products = [];
 	let resultProducts = [];
-	let el
+	let el;
 
 	onMount(async () => {
-		 el = document.getElementById('all-product');
+		
+		el = document.getElementById('result-product');
 		const response = await fetch(env.PUBLIC_URL + 'Frontpage?limit=20', {
 			method: 'GET',
 			headers: {
@@ -54,12 +55,7 @@
 			// For example:
 			// productsStore.set(resultProducts);
 		
-			console.log(el)
-			if (el) {
-				el.scrollIntoView({
-					behavior: 'smooth'
-				});
-			}
+			smoothScrollTo()
 		} catch (error) {
 			console.error('Error fetching results:', error);
 		}
@@ -67,36 +63,39 @@
 
 	$: if (result.length > 0) {
 		fetchResult();
-		
+	}
+
+	function smoothScrollTo() {
+		scrollElement('result-product')
 	}
 </script>
 
 <div class="bg-white w-full py-6">
-	<div id="result-product">
-
-
-	{#if result.length > 0}
-		<h2 class="text-2xl font-bold tracking-tight text-gray-900" >Results</h2>
-		<div
-			class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mb-8"
-		>
-			{#each resultProducts as resultProduct}
-				<ProductCard
-					productId={resultProduct.id}
-					productName={resultProduct.productDisplayName}
-					productPrice={resultProduct.price}
-				/>
-			{:else}
-				<p>Loading...</p>
-			{/each}
-		</div>
-	{/if}
-		</div>
+	<!-- <a use:scrollTo={'result-product'}>GOGo</a> -->
+	<div id="result-product" use:scrollRef={'result-product'}>
+		{#if result.length > 0}
+			<h2 class="text-2xl font-bold tracking-tight text-gray-900">Results</h2>
+			<div
+				class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 mb-8"
+			>
+				{#each resultProducts as resultProduct}
+					<ProductCard
+						productId={resultProduct.id}
+						productName={resultProduct.productDisplayName}
+						productPrice={resultProduct.price}
+					/>
+				{:else}
+					<p>Loading...</p>
+				{/each}
+			</div>
+		{/if}
+	</div>
 
 	<h2 class="text-2xl font-bold tracking-tight text-gray-900">All Products</h2>
 
 	<div
-		class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8" id="all-product"
+		class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
+		id="all-product"
 	>
 		{#each products as product}
 			<ProductCard
@@ -113,5 +112,4 @@
 </div>
 
 <style>
-
 </style>

@@ -1,7 +1,9 @@
 <script>
+	import { env } from '$env/dynamic/public';
 	export let productName;
 	export let productPrice;
 	export let productId;
+
 	let quantities = [1];
 	function increment(index) {
 		quantities[index] += 1;
@@ -22,11 +24,11 @@
 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:white md:p-6">
 	<div class="space-y-4 md:flex md:items-start md:justify-between md:gap-6 md:space-y-0">
 		<a href="/detail/{productId}" class="shrink-0 md:order-1">
-			<!-- svelte-ignore a11y-img-redundant-alt -->
+			
 			<img
-				class="h-20 w-20 dark:hidden"
-				src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
-				alt="imac image"
+				class="h-20 w-20 object-contain "
+				src="{env.PUBLIC_URL}image/{productId}.jpg"
+				alt="{productId}Image"
 			/>
 		</a>
 
