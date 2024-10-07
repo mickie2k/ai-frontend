@@ -1,7 +1,11 @@
 <script>
+	import { env } from '$env/dynamic/public'
+
 	export let productName;
 	export let productPrice;
 	export let productId;
+	// export let fetchResult; help me
+
 	let quantities = [1];
 	function increment(index) {
 		quantities[index] += 1;
@@ -13,9 +17,17 @@
 		}
 	}
 
-	function removeItem(index) {
-		// ลบสินค้าออกจากรถเข็น
-		console.log(`ลบสินค้าชิ้นที่ ${index + 1}`);
+	function removeItem() {
+		let storedResult = localStorage.getItem('cart');
+		if (storedResult) {
+			let result = JSON.parse(storedResult); 
+
+			result = result.filter(id => id !== productId);
+
+			localStorage.setItem('cart', JSON.stringify(result));
+			// fetchResult();
+			console.log(`ลบสินค้าชิ้นที่ ${productId} ออกแล้ว`);
+		}
 	}
 </script>
 
@@ -24,8 +36,8 @@
 		<a href="/detail/{productId}" class="shrink-0 md:order-1">
 			<!-- svelte-ignore a11y-img-redundant-alt -->
 			<img
-				class="h-20 w-20 dark:hidden"
-				src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg"
+				class="h-20 w-20 dark:hidden bg-contain bg-center"
+				src="{env.PUBLIC_URL}image/{productId}.jpg"
 				alt="imac image"
 			/>
 		</a>
@@ -85,10 +97,10 @@
 				<button
 					type="button"
 					class="inline-flex items-center justify-center p-2 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500"
-					on:click={() => removeItem(0)}
+					on:click={removeItem}
 				>
 					<i class="fas fa-trash-alt"></i>
-                    <span>Delete</span>
+					<span>Delete</span>
 				</button>
 			</div>
 		</div>

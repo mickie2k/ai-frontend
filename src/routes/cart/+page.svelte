@@ -1,42 +1,56 @@
 <script>
 	import Cart from './Cart.svelte';
-import { env } from '$env/dynamic/public'
-	let quantities = [1, 1, 1, 1, 1]; // เก็บจำนวนสินค้าสำหรับแต่ละชิ้น
-	let products = [];
+	import { env } from '$env/dynamic/public'
+	// let quantities = [1, 1, 1, 1, 1]; เก็บจำนวนสินค้าสำหรับแต่ละชิ้น
+	// let products = [];
 
-	let result = [{id:39386},{id:39386}];
+	// let result = [{id:39386},{id:15970}];
+	let result = [];
 	let resultProducts = [];
 
-	// if (typeof window !== 'undefined') {
-	// 	// Safe to use localStorage
-	// 	result = localStorage.getItem('id') || '';
-	// }
-
-	$: if (result.length > 0) {
-		fetchResult();
+	let totalPrice = 0;
+	let fee = 99;
+	// ตรวจสอบค่าใน local storage ที่ key 'cart' ลองเพิ่ม cart:[15970,39386,21379,48123] ใน local storage
+	$: if (typeof window !== 'undefined') {
+		const storedResult = localStorage.getItem('cart');
+		if (storedResult) {
+			result = JSON.parse(storedResult);
+			console.log(result);
+		}
 	}
 
 	async function fetchResult() {
+		if (result.length === 0) {
+			console.error('No product IDs found in result.');
+			return;
+		}
+		
 		try {
-			// Make sure the env.PUBLIC_URL is correctly set
-			const ids = result.map((result) => result.id).join(',');
-			const response = await fetch(`${env.PUBLIC_URL}/getMultiple?ids=${ids}`);
+			const ids = result.join(',');
+			console.log(ids)
+			const response = await fetch(`${env.PUBLIC_URL}getMultiple?ids=${ids}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'ngrok-skip-browser-warning': true
+				}
+			});
 
-			// Check if the response is okay
 			if (!response.ok) {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 
-			// Parse the JSON response
 			resultProducts = await response.json();
-			console.log('Fetched products:', resultProducts); // Log the results
-
-			// Assuming you want to store the result somewhere, like a Svelte store
-			// For example:
-			// productsStore.set(resultProducts);
+			console.log('Fetched products:', resultProducts);
 		} catch (error) {
 			console.error('Error fetching results:', error);
 		}
+	}
+
+	$: totalPrice = resultProducts.reduce((total, product) => total + product.price, 0);
+
+	$: if (result.length > 0) {
+		fetchResult();
 	}
 </script>
 
@@ -53,6 +67,7 @@ import { env } from '$env/dynamic/public'
 								productId={resultProduct.id}
 								productName={resultProduct.productDisplayName}
 								productPrice={resultProduct.price}
+								
 							/>
 						{:else}
 							<p>Loading...</p>
@@ -61,15 +76,15 @@ import { env } from '$env/dynamic/public'
 					<!-- สินค้าชิ้นที่ 1 -->
 
 					<!-- สินค้าชิ้นที่ 2 -->
-					<div class="rounded-lg border border-gray-200 bg-white p-4 dark:white md:p-6">
+					<!-- <div class="rounded-lg border border-gray-200 bg-white p-4 dark:white md:p-6">
 						<div class="space-y-4 md:flex md:items-start md:justify-between md:gap-6 md:space-y-0">
 							<a href="#" class="shrink-0 md:order-1">
-								<img
+								<image
 									class="h-20 w-20 dark:hidden"
 									src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-light.svg"
 									alt="imac image"
 								/>
-								<img
+								<image
 									class="hidden h-20 w-20 dark:block"
 									src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/apple-watch-dark.svg"
 									alt="imac image"
@@ -150,7 +165,7 @@ import { env } from '$env/dynamic/public'
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 					<!-- สินค้าชิ้นที่ 3 -->
 
@@ -170,19 +185,19 @@ import { env } from '$env/dynamic/public'
 						<div class="space-y-2">
 							<dl class="flex items-center justify-between gap-4">
 								<dt class="text-base font-normal text-gray-500 dark:text-gray">Subtotal</dt>
-								<dd class="text-base font-medium text-gray-900 dark:text-black">$7,592.00</dd>
+								<dd class="text-base font-medium text-gray-900 dark:text-black">${totalPrice}</dd>
 							</dl>
 
 							<dl class="flex items-center justify-between gap-4">
 								<dt class="text-base font-normal text-gray-500 dark:text-gray">Delivery Fee</dt>
-								<dd class="text-base font-medium text-gray-900 dark:text-black">$99</dd>
+								<dd class="text-base font-medium text-gray-900 dark:text-black">${fee}</dd>
 							</dl>
 
 							<dl
 								class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700"
 							>
 								<dt class="text-base font-bold text-gray-900 dark:text-black">Total</dt>
-								<dd class="text-base font-bold text-gray-900 dark:text-black">$8,191.00</dd>
+								<dd class="text-base font-bold text-gray-900 dark:text-black">${totalPrice + fee}</dd>
 							</dl>
 						</div>
 

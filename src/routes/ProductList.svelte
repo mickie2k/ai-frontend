@@ -11,11 +11,11 @@
 
 	onMount(async () => {
 		 el = document.getElementById('all-product');
-		const response = await fetch(env.PUBLIC_URL + 'Frontpage?limit=20', {
+		const response = await fetch(env.PUBLIC_URL + 'Frontpage/?page=20', {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
-				'ngrok-skip-browser-warning': 'true'
+				'ngrok-skip-browser-warning': true
 			}
 		});
 		if (!response.ok) {
@@ -37,7 +37,7 @@
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
-					'ngrok-skip-browser-warning': 'true'
+					'ngrok-skip-browser-warning': true
 				}
 			});
 
