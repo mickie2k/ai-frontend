@@ -8,12 +8,12 @@
 <div class="app">
 	<Navbar/>
 
-	<main>
+	<main class="pt-24">
 		<slot />
 	</main>
 
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+	<footer class="bg-[#F0f0f0]">
+		<p>Fashionist © 2024-2077, All Rights Reserved</p>
 	</footer>
 </div>
 
