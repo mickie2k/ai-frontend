@@ -29,6 +29,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"ai-frontend": "file:",
 		"svelte-scrolling": "^1.4.0"
 	}
 }
