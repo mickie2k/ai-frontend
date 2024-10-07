@@ -75,8 +75,8 @@
 		</div>
 		<div class="bg-[#242424] text-white h-full flex flex-col justify-center items-center">
 			{#if isSelect}
-				<button on:click={back} class=" py-3 px-14 text-zinc-400 hover:text-zinc-50">
-					&lt; Back</button
+				<button on:click={back} class=" py-3 px-14 text-zinc-400 hover:text-zinc-50 font-semibold">
+					<i class="fa-solid fa-chevron-left mr-2"></i>BACK</button
 				>
 
 				<div

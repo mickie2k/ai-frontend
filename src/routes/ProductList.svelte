@@ -5,14 +5,23 @@
 	import { resultProductID } from './store.js';
 	import { scrollRef, scrollElement } from 'svelte-scrolling'
 	$: result = [];
-	let products = [];
+	$: products = [];
 	let resultProducts = [];
 	let el;
+	let page = 1;
 
 	onMount(async () => {
 		
 		el = document.getElementById('result-product');
-		const response = await fetch(env.PUBLIC_URL + 'Frontpage?limit=20', {
+		 fetchAllProduct()
+	});
+
+	resultProductID.subscribe((value) => {
+		result = value;
+	});
+
+	async function fetchAllProduct(){
+		const response = await fetch(env.PUBLIC_URL + 'Frontpage/?page='+ page, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -22,13 +31,11 @@
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
-		products = await response.json();
-		console.log(products);
-	});
-
-	resultProductID.subscribe((value) => {
-		result = value;
-	});
+		const newProducts = await response.json();
+		products.push(...newProducts)
+		products = products
+		console.log(products)
+	}
 
 	async function fetchResult() {
 		try {
@@ -68,6 +75,12 @@
 	function smoothScrollTo() {
 		scrollElement('result-product')
 	}
+
+	async function viewMore(){
+		page+=1;
+		fetchAllProduct()
+		
+	}
 </script>
 
 <div class="bg-white w-full py-6">
@@ -87,12 +100,14 @@
 				{:else}
 					<p>Loading...</p>
 				{/each}
+			
 			</div>
+				
 		{/if}
 	</div>
 
 	<h2 class="text-2xl font-bold tracking-tight text-gray-900">All Products</h2>
-
+	<div class="flex items-center flex-col">
 	<div
 		class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
 		id="all-product"
@@ -106,9 +121,15 @@
 		{:else}
 			<p>Loading...</p>
 		{/each}
-
+		
 		<!-- More products... -->
 	</div>
+	<button
+	on:click={viewMore}
+						class="mt-9 py-3 px-14 rounded-full max-w-fit bottom-0 text-zinc-00 bg-gray-100 border border-zinc-300 cursor-pointer  hover:bg-gray-200"
+						>Load More</button
+			>
+			</div>
 </div>
 
 <style>

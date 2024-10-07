@@ -3,26 +3,32 @@
 	export let productName;
 	export let productPrice;
 	export let productId;
+	export let deleteProductID;
 
-	let quantities = [1];
-	function increment(index) {
-		quantities[index] += 1;
-	}
+	
+	// let quantities = [1];
+	// function increment(index) {
+	// 	quantities[index] += 1;
+	// }
 
-	function decrement(index) {
-		if (quantities[index] > 1) {
-			quantities[index] -= 1;
-		}
-	}
+	// function decrement(index) {
+	// 	if (quantities[index] > 1) {
+	// 		quantities[index] -= 1;
+	// 	}
+	// }
 
-	function removeItem(index) {
+	function removeItem() {
 		// ลบสินค้าออกจากรถเข็น
-		console.log(`ลบสินค้าชิ้นที่ ${index + 1}`);
+		deleteProductID = productId;
+		console.log(`ลบสินค้าชิ้นที่ ${deleteProductID}`);
 	}
 </script>
 
 <div class="rounded-lg border border-gray-200 bg-white p-4 dark:white md:p-6">
-	<div class="space-y-4 md:flex md:items-start md:justify-between md:gap-6 md:space-y-0">
+	<div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+		<div class="flex flex-col items-center md:flex-row gap-4">
+
+		
 		<a href="/detail/{productId}" class="shrink-0 md:order-1">
 			
 			<img
@@ -31,10 +37,19 @@
 				alt="{productId}Image"
 			/>
 		</a>
+		<div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
+			<a href="/detail/{productId}" class="text-base font-black text-gray-900 hover:underline dark:text-black"
+				>{productName}</a
+			>
+			<div class="flex items-center gap-4">
+				<p class="text-base font-semibold text-gray-900 dark:text-black">${productPrice}</p>
+			</div>
+		</div>
+		</div>
 
 		<div class="flex items-center justify-between md:order-3 md:justify-end">
 			<div class="flex items-center">
-				<button
+				<!-- <button
 					type="button"
 					class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
 					on:click={() => decrement(0)}
@@ -81,27 +96,19 @@
 							d="M9 1v16M1 9h16"
 						/>
 					</svg>
-				</button>
+				</button> -->
 			</div>
 			<div class="text-end md:order-4 md:w-32">
 				<button
 					type="button"
 					class="inline-flex items-center justify-center p-2 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500"
-					on:click={() => removeItem(0)}
+					on:click={removeItem}
 				>
 					<i class="fas fa-trash-alt"></i>
-                    <span>Delete</span>
 				</button>
 			</div>
 		</div>
 
-		<div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-			<a href="/detail/{productId}" class="text-base font-black text-gray-900 hover:underline dark:text-black"
-				>{productName}</a
-			>
-			<div class="flex items-center gap-4">
-				<p class="text-base font-semibold text-gray-900 dark:text-black">${productPrice}</p>
-			</div>
-		</div>
+		
 	</div>
 </div>

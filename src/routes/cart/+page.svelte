@@ -1,40 +1,43 @@
 <script>
 	import Cart from './Cart.svelte';
-import { env } from '$env/dynamic/public'
+	import { env } from '$env/dynamic/public';
 	import { onMount } from 'svelte';
 	let quantities = [1, 1, 1, 1, 1]; // เก็บจำนวนสินค้าสำหรับแต่ละชิ้น
 	let products = [];
-  let result = []
+	let result = [];
 	let resultProducts = [];
-  let fee = 100
-  $: sum = 0
+	let fee = 0;
+	let deleteId;
+	$: sum = 0;
 
-  onMount(async()=>{
-    // if (typeof window !== 'undefined') {
-        // Safe to use localStorage
-        result =  JSON.parse(localStorage.getItem('id')) || '';
-     
-      
-      // }
-  })
+	onMount(async () => {
+		// if (typeof window !== 'undefined') {
+		// Safe to use localStorage
+		result = JSON.parse(localStorage.getItem('id')) || [];
+		if (result.length > 0) {
+			fetchResult();
+		}
+		// }
+	});
+
 	
 
-	$: if (result.length > 0) {
-    
-		fetchResult();
-    
+	function onClick() {
+		result = [];
+		localStorage.clear('id');
+		alert('Thank you.');
 	}
 
 	async function fetchResult() {
 		try {
+			sum = 0;
 			// Make sure the env.PUBLIC_URL is correctly set
-       let ids = ""
-      result.forEach(element => {
-        ids += element+","
-      });
-      ids = ids.slice(0, -1);
-			 
-        console.log(ids)
+			let ids = '';
+			result.forEach((element) => {
+				ids += element + ',';
+			});
+			ids = ids.slice(0, -1);
+
 			const response = await fetch(`${env.PUBLIC_URL}getMultiple?ids=${ids}`, {
 				method: 'GET',
 				headers: {
@@ -51,10 +54,11 @@ import { env } from '$env/dynamic/public'
 			// Parse the JSON response
 			resultProducts = await response.json();
 			console.log('Fetched products:', resultProducts); // Log the results
-      resultProducts.forEach(result => {
-          sum += result.price;
-      });
-
+			resultProducts.forEach((result) => {
+				sum += result.price;
+			});
+			fee = 100
+			
 
 			// Assuming you want to store the result somewhere, like a Svelte store
 			// For example:
@@ -62,16 +66,40 @@ import { env } from '$env/dynamic/public'
 		} catch (error) {
 			console.error('Error fetching results:', error);
 		}
-
 	}
+
+	    $: if (deleteId) {
+			console.log(deleteId+"Frompage")
+			// Remove the product from resultProducts when deleteId is set
+			resultProducts = resultProducts.filter(product => product.id !== deleteId);
+			sum = resultProducts.reduce((acc, product) => acc + product.price, 0); // Recalculate total
+			// Initialize result as an array
+
+
+				// Log result to ensure it's an array
+				console.log("Before filter, result is:", typeof result, result);
+
+				// Use filter to remove the specific item
+				result = result.filter(item => item !== deleteId);
+
+				// Log result after filter to confirm it's still an array
+				console.log("After filter, result is:", typeof result, result);
+				localStorage.setItem('id', JSON.stringify(result))
+				deleteId = 0; // Reset deleteId after deleting
+				
+    	}
+		$: if(result.length == 0){
+			sum = 0
+			fee = 0
+		}
 </script>
 
 <section class="bg-white py-8 antialiased md:py-16">
-	<div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+	<div class="px-32">
 		<h1 class="text-xl font-black text-black dark:text-black sm:text-2xl">Your Cart</h1>
 
 		<div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
-			<div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+			<div class="mx-auto w-full  lg:max-w-lg xl:max-w-3xl 2xl:max-w-6xl">
 				<div class="space-y-6">
 					{#if result.length > 0}
 						{#each resultProducts as resultProduct (resultProduct.id)}
@@ -79,18 +107,18 @@ import { env } from '$env/dynamic/public'
 								productId={resultProduct.id}
 								productName={resultProduct.productDisplayName}
 								productPrice={resultProduct.price}
+								bind:deleteProductID={deleteId}
 							/>
 						{:else}
 							<p>Loading...</p>
 						{/each}
-            {:else}
-            <p>Cart is empty</p>
+					{:else}
+						<p>Cart is empty</p>
 					{/if}
-					
 				</div>
 			</div>
 
-			<div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+			<div class="mx-auto mt-6 w-full  max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
 				<div
 					class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 dark:black dark:white sm:p-6"
 				>
@@ -112,15 +140,22 @@ import { env } from '$env/dynamic/public'
 								class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700"
 							>
 								<dt class="text-base font-bold text-gray-900 dark:text-black">Total</dt>
-								<dd class="text-base font-bold text-gray-900 dark:text-black">${sum+fee}</dd>
+								<dd class="text-base font-bold text-gray-900 dark:text-black">${sum + fee}</dd>
 							</dl>
 						</div>
-
-						<a
-							href="#"
-							class="flex w-full items-center justify-center rounded-lg bg-black px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-700"
-							>Go to Checkout</a
-						>
+						{#if result.length > 0}
+							<button
+								on:click={onClick}
+								class="flex w-full items-center justify-center rounded-lg bg-black px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:bg-gray-900"
+								>Go to Checkout
+							</button>
+						{:else}
+							<button
+								disabled
+								class="cursor-not-allowed opacity-50 flex w-full items-center justify-center rounded-lg bg-gray-300 px-5 py-2.5 text-sm font-medium text-black"
+								>Go to Checkout
+							</button>
+						{/if}
 					</div>
 				</div>
 			</div>

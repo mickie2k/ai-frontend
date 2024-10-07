@@ -18,7 +18,7 @@
 	<!-- <Banner bind:recommend={result}/> -->
 	 <Banner/>
 
-	<div class="grid grid-cols-4 gap-6 px-32 bg-white w-full">
+	<div class="grid grid-cols-4 gap-8 px-32 bg-white w-full">
 		<div class="bg-black w-full ">
 			<!-- ใส่ filter ตรงนี้ -->
 		</div>
