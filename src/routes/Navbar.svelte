@@ -3,11 +3,30 @@
     import { env } from '$env/dynamic/public'
     let search = ""
 	async function handleOnSubmit() {
-        const response = await fetch(env.PUBLIC_URL+"/searchbyname?" + new URLSearchParams({
-				name: search}))
-        const result = await response.json();
-		console.log(search +" "+ result)
+        let result = []
+        try {
+            const response = await fetch(env.PUBLIC_URL+"searchbyname?" + new URLSearchParams({
+				name: search}),
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+					'ngrok-skip-browser-warning': 'true' 
+                },
+            })
+                  result = await response.json();
+               
+        } catch (error) {
+            alert("Products not found. Please check the spelling or try again.")
+            console.log("Error")
+        }
+        
+
+
+
+
         resultProductID.set(result)
+         
 	}
 </script>
 

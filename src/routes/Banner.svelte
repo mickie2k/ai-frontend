@@ -1,13 +1,14 @@
 <script>
 	import preview from '$lib/images/Preview.webp';
 	import { resultProductID } from './store.js';
+		import { env } from '$env/dynamic/public'
 	let input;
 	let image;
 	let show = false;
-	let isSelect= false;
-    let selected;
+	let isSelect = false;
+	let selected;
 	let files;
-	let recommend = []
+	let recommend = [];
 
 	function onChange() {
 		files = input.files[0];
@@ -26,45 +27,41 @@
 		}
 	}
 
-	
 	function onChangeRadio(event) {
 		selected = event.currentTarget.value;
 	}
 
-    function handleOnSubmitForm(event){
-        isSelect = true;
-    }
+	function handleOnSubmitForm(event) {
+		isSelect = true;
+	}
 
-    function back(){
-        isSelect = false;
-    }
+	function back() {
+		isSelect = false;
+	}
 
-	function onSubmit(){
-		// const formData = new FormData();
+	function onSubmit() {
+		const formData = new FormData();
 		// formData.append('selection', selected);
 		// formData.append('value' , files.name)
-        // formData.append('key', files);
-		// const upload = fetch(env.PUBLIC_URL+'/file', {
-        //     method: 'POST',
-        //     body: formData
-        // }).then((response) => response.json()).then((result) => {
-        //     console.log('Success:', result);
-		// 	recommend = result
-        // })
-        //         .catch((error) => {
-        //             console.error('Error:', error);
-        //         });
-		recommend =[
-			{
-				"id": "39386"
+		formData.append('file', files);
+		const upload = fetch(env.PUBLIC_URL + 'upload', {
+			method: 'POST',
+			headers:{
+				'ngrok-skip-browser-warning': 'true',
 			},
-			{
-				"id": "21379"
-			},
-    	]
-		resultProductID.set(recommend)
-    }
-	
+			body: formData
+		})
+			.then((response) => response.json())
+			.then((result) => {
+				console.log('Success:', result);
+				recommend = result;
+				console.log(recommend);
+				resultProductID.set(recommend);
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+	}
 </script>
 
 <div class="w-full h-[50rem]">
@@ -77,9 +74,11 @@
 			>
 		</div>
 		<div class="bg-[#242424] text-white h-full flex flex-col justify-center items-center">
-			{#if isSelect }
-            <button on:click={back} class=" py-3 px-14 text-zinc-400  hover:text-zinc-50 "> &lt; Back</button>
-            
+			{#if isSelect}
+				<button on:click={back} class=" py-3 px-14 text-zinc-400 hover:text-zinc-50">
+					&lt; Back</button
+				>
+
 				<div
 					class="flex w-[450px] h-[450px] overflow-hidden border-none mb-8 justify-center items-center"
 				>
@@ -102,58 +101,93 @@
 					/>
 					<label
 						for="file-upload"
-						class="py-3 px-14 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-full hover:text-zinc-50 hover:bg-zinc-700 cursor-pointer "
+						class="py-3 px-14 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-full hover:text-zinc-50 hover:bg-zinc-700 cursor-pointer"
 					>
 						Browse File
 					</label>
 					{#if files}
-							<button class="py-3 px-14  rounded-full text-black bg-gray-100 border border-zinc-600  hover:text-gray-900 hover:bg-gray-300" on:click={onSubmit}>Submit</button>
+						<button
+							class="py-3 px-14 rounded-full text-black bg-gray-100 border border-zinc-600 hover:text-gray-900 hover:bg-gray-300"
+							on:click={onSubmit}>Submit</button
+						>
 					{:else}
-						
-						<button class="py-3 px-14 border rounded-full bg-gray-300 text-black cursor-not-allowed opacity-50 " disabled>Submit</button>
+						<button
+							class="py-3 px-14 border rounded-full bg-gray-300 text-black cursor-not-allowed opacity-50"
+							disabled>Submit</button
+						>
 					{/if}
-					
 				</div>
 			{:else}
 				<div class="flex flex-col items-center gap-4">
-					
-                    <form class="flex flex-col items-center" on:submit={handleOnSubmitForm} method="post">
-                        <h3 class="mb-9 text-lg font-medium text-gray-900 dark:text-white">Choose Categories</h3>
-                        <ul class="grid w-full gap-6 md:grid-cols-3">
-                            <li>
-                                <input type="radio" id="category-clothing" name="category" value="category-clothing" class="hidden peer" required on:change={onChangeRadio}/>
-                                <label for="category-clothing" class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer  peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700 ">                           
-                                    <div class="block">
-                                        <div class="w-full text-lg font-semibold">Clothing</div>
-                                        <div class="w-full">Topwear, Bottomwear, etc.</div>
-                                    </div>
-                                    
-                                </label>
-                            </li>
-                            <li>
-                                <input type="radio" id="category-accessories" name="category" value="category-accessories" class="hidden peer" on:change={onChangeRadio}>
-                                <label for="category-accessories" class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer  peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700 ">
-                                    <div class="block">
-                                        <div class="w-full text-lg font-semibold">Accessories</div>
-                                        <div class="w-full">Watches, Belt, Wallet, etc.</div>
-                                    </div>
-                                    
-                                </label>
-                            </li>
-                            <li>
-                                <input type="radio" id="category-footwear" name="category" value="category-footwear" class="hidden peer" on:change={onChangeRadio}>
-                                <label for="category-footwear" class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer  peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700  ">
-                                    <div class="block">
-                                        <div class="w-full text-lg font-semibold">Footwear</div>
-                                        <div class="w-full">Flip Flops, Sandal, Shoes</div>
-                                    </div>
-                                    
-                                </label>
-                            </li>
-                        </ul>
-                        <button class="mt-9 py-3 px-14  rounded-full max-w-fit bottom-0  text-black bg-gray-100 border border-zinc-600 cursor-pointer   hover:text-gray-900 hover:bg-gray-300">Next</button>
-                        </form>
-			
+					<form class="flex flex-col items-center" on:submit={handleOnSubmitForm} method="post">
+						<h3 class="mb-9 text-lg font-medium text-gray-900 dark:text-white">
+							Choose Categories
+						</h3>
+						<ul class="grid w-full gap-6 md:grid-cols-3">
+							<li>
+								<input
+									type="radio"
+									id="category-clothing"
+									name="category"
+									value="category-clothing"
+									class="hidden peer"
+									required
+									on:change={onChangeRadio}
+								/>
+								<label
+									for="category-clothing"
+									class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700"
+								>
+									<div class="block">
+										<div class="w-full text-lg font-semibold">Clothing</div>
+										<div class="w-full">Topwear, Bottomwear, etc.</div>
+									</div>
+								</label>
+							</li>
+							<li>
+								<input
+									type="radio"
+									id="category-accessories"
+									name="category"
+									value="category-accessories"
+									class="hidden peer"
+									on:change={onChangeRadio}
+								/>
+								<label
+									for="category-accessories"
+									class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700"
+								>
+									<div class="block">
+										<div class="w-full text-lg font-semibold">Accessories</div>
+										<div class="w-full">Watches, Belt, Wallet, etc.</div>
+									</div>
+								</label>
+							</li>
+							<li>
+								<input
+									type="radio"
+									id="category-footwear"
+									name="category"
+									value="category-footwear"
+									class="hidden peer"
+									on:change={onChangeRadio}
+								/>
+								<label
+									for="category-footwear"
+									class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700"
+								>
+									<div class="block">
+										<div class="w-full text-lg font-semibold">Footwear</div>
+										<div class="w-full">Flip Flops, Sandal, Shoes</div>
+									</div>
+								</label>
+							</li>
+						</ul>
+						<button
+							class="mt-9 py-3 px-14 rounded-full max-w-fit bottom-0 text-black bg-gray-100 border border-zinc-600 cursor-pointer hover:text-gray-900 hover:bg-gray-300"
+							>Next</button
+						>
+					</form>
 				</div>
 			{/if}
 		</div>

@@ -2,6 +2,7 @@
 	export let productName;
 	export let productPrice;
 	export let productId;
+		import { env } from '$env/dynamic/public'
 </script>
 
 <div class="group relative">
@@ -9,8 +10,8 @@
 		class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
 	>
 		<img
-			src="https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-01.jpg"
-			alt="Front of men&#039;s Basic Tee in black."
+			src="{env.PUBLIC_URL}image/{productId}.jpg"
+			alt="{productName}Image"
 			class="h-full w-full object-cover object-center lg:h-full lg:w-full"
 		/>
 	</div>
