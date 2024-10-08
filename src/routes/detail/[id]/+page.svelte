@@ -59,23 +59,36 @@
 
   // ฟังก์ชันเพิ่มสินค้าไปยัง localStorage
   function addToCart() {
-    // ดึงข้อมูลตะกร้าสินค้าจาก localStorage
-    let cart = JSON.parse(localStorage.getItem('id')) || [];
+  // ดึงข้อมูลตะกร้าสินค้าจาก localStorage
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // เพิ่มสินค้าลงในตะกร้า
-    cart.push(parseInt(productId, 10));
+  // ตรวจสอบว่าสินค้าเดียวกันที่มี size เดียวกันถูกเพิ่มไว้แล้วหรือไม่
+  const existingProductIndex = cart.findIndex(item => item.productId === productId && item.size === selectedSize);
+
+  if (existingProductIndex !== -1) {
+    // ถ้าสินค้าตัวนี้กับ size เดิมถูกเพิ่มไว้แล้ว สามารถเพิ่มจำนวนได้ หรือจะไม่ทำอะไรเพิ่มเติมก็ได้
+    notification = 'สินค้านี้ถูกเพิ่มไว้แล้วในตะกร้า!';
+  } else {
+    // เพิ่มสินค้าพร้อมกับขนาดลงในตะกร้า
+    cart.push({
+      productId: parseInt(productId, 10),
+      size: selectedSize
+    });
 
     // เก็บข้อมูลตะกร้าลง localStorage
-    localStorage.setItem('id', JSON.stringify(cart));
+    localStorage.setItem('cart', JSON.stringify(cart));
 
     notification = 'เพิ่มเข้าตะกร้าเรียบร้อย!';
-
-    setTimeout(() => {
-      notification = '';
-    }, 3000);
-
-    console.log('Added to cart:', cart);
   }
+
+  // เคลียร์การแจ้งเตือนหลังจาก 3 วินาที
+  setTimeout(() => {
+    notification = '';
+  }, 3000);
+
+  console.log('Added to cart:', cart);
+}
+
 
   // function increment() {
   //   quantity += 1;
@@ -89,7 +102,7 @@
 </script>
 
 {#if notification}
-  <div class="fixed top-0 left-0 right-0 bg-green-600 text-white text-center p-4 z-50 mt-5">
+  <div class="fixed top-0 left-0 right-0 bg-green-300 text-white text-center p-4 z-50 mt-5">
     {notification}
   </div>
 {/if}

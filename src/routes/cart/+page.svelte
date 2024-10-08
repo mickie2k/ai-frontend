@@ -13,7 +13,7 @@
 	onMount(async () => {
 		// if (typeof window !== 'undefined') {
 		// Safe to use localStorage
-		result = JSON.parse(localStorage.getItem('id')) || [];
+		result = JSON.parse(localStorage.getItem('cart')) || [];
 		if (result.length > 0) {
 			fetchResult();
 		}
@@ -29,68 +29,62 @@
 	}
 
 	async function fetchResult() {
-		try {
-			sum = 0;
-			// Make sure the env.PUBLIC_URL is correctly set
-			let ids = '';
-			result.forEach((element) => {
-				ids += element + ',';
-			});
-			ids = ids.slice(0, -1);
+	try {
+		sum = 0;
+		// สร้างสตริงของ ids จาก result ที่เป็น array ของ { productId, size }
+		let ids = result.map(item => item.productId).join(',');
 
-			const response = await fetch(`${env.PUBLIC_URL}getMultiple?ids=${ids}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					'ngrok-skip-browser-warning': 'true'
-				}
-			});
-
-			// Check if the response is okay
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
+		const response = await fetch(`${env.PUBLIC_URL}getMultiple?ids=${ids}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'ngrok-skip-browser-warning': 'true'
 			}
+		});
 
-			resultProducts = await response.json();
-			console.log('Fetched products:', resultProducts); // Log the results
-			resultProducts.forEach((result) => {
-				sum += result.price;
-			});
-			fee = 100
-			
-
-			// Assuming you want to store the result somewhere, like a Svelte store
-			// For example:
-			// productsStore.set(resultProducts);
-		} catch (error) {
-			console.error('Error fetching results:', error);
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
 		}
+
+		resultProducts = await response.json();
+		console.log('Fetched products:', resultProducts);
+
+		// คำนวณยอดรวม
+		resultProducts.forEach((product) => {
+			sum += product.price;
+		});
+		fee = 100;
+
+	} catch (error) {
+		console.error('Error fetching results:', error);
 	}
-
-	    $: if (deleteId) {
-			console.log(deleteId+"Frompage")
-			// Remove the product from resultProducts when deleteId is set
-			resultProducts = resultProducts.filter(product => product.id !== deleteId);
-			sum = resultProducts.reduce((acc, product) => acc + product.price, 0); // Recalculate total
-			// Initialize result as an array
+}
 
 
-				// Log result to ensure it's an array
-				console.log("Before filter, result is:", typeof result, result);
+	$: if (deleteId) {
+		console.log(deleteId+"Frompage")
+		// Remove the product from resultProducts when deleteId is set
+		resultProducts = resultProducts.filter(product => product.id !== deleteId);
+		sum = resultProducts.reduce((acc, product) => acc + product.price, 0); // Recalculate total
+		// Initialize result as an array
 
-				// Use filter to remove the specific item
-				result = result.filter(item => item !== deleteId);
 
-				// Log result after filter to confirm it's still an array
-				console.log("After filter, result is:", typeof result, result);
-				localStorage.setItem('id', JSON.stringify(result))
-				deleteId = 0; // Reset deleteId after deleting
-				
-    	}
-		$: if(result.length == 0){
-			sum = 0
-			fee = 0
-		}
+			// Log result to ensure it's an array
+			console.log("Before filter, result is:", typeof result, result);
+
+			// Use filter to remove the specific item
+			result = result.filter(item => item !== deleteId);
+
+			// Log result after filter to confirm it's still an array
+			console.log("After filter, result is:", typeof result, result);
+			localStorage.setItem('id', JSON.stringify(result))
+			deleteId = 0; // Reset deleteId after deleting
+			
+	}
+	$: if(result.length == 0){
+		sum = 0
+		fee = 0
+	}
 </script>
 
 <section class="bg-white py-8 antialiased md:py-16">
@@ -106,6 +100,8 @@
 								productId={resultProduct.id}
 								productName={resultProduct.productDisplayName}
 								productPrice={resultProduct.price}
+								productColor={resultProduct.baseColour}
+								size={result.find(item => item.productId === resultProduct.id).size}
 								bind:deleteProductID={deleteId}
 							/>
 						{:else}
