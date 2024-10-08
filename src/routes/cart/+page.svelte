@@ -62,25 +62,16 @@
 
 
 	$: if (deleteId) {
-		console.log(deleteId+"Frompage")
-		// Remove the product from resultProducts when deleteId is set
-		resultProducts = resultProducts.filter(product => product.id !== deleteId);
-		sum = resultProducts.reduce((acc, product) => acc + product.price, 0); // Recalculate total
-		// Initialize result as an array
+    resultProducts = resultProducts.filter(product => product.id !== deleteId);
+    sum = resultProducts.reduce((acc, product) => acc + product.price, 0);
 
+    result = result.filter(item => item.productId !== deleteId);
+    localStorage.setItem('cart', JSON.stringify(result));
 
-			// Log result to ensure it's an array
-			console.log("Before filter, result is:", typeof result, result);
-
-			// Use filter to remove the specific item
-			result = result.filter(item => item !== deleteId);
-
-			// Log result after filter to confirm it's still an array
-			console.log("After filter, result is:", typeof result, result);
-			localStorage.setItem('id', JSON.stringify(result))
-			deleteId = 0; // Reset deleteId after deleting
-			
+    deleteId = 0; // Reset the deleteId after deletion
 	}
+
+
 	$: if(result.length == 0){
 		sum = 0
 		fee = 0

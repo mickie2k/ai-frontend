@@ -9,7 +9,7 @@
   let error = null;
   // let quantity = 1;
   let notification = ''; 
-  let selectedSize = 'large';
+  let selectedSize = 'Medium';
 
   function selectSize(size) {
     selectedSize = size;
@@ -102,7 +102,7 @@
 </script>
 
 {#if notification}
-  <div class="fixed top-0 left-0 right-0 bg-green-300 text-white text-center p-4 z-50 mt-5">
+  <div class="fixed top-0 left-0 right-0 bg-green-500 text-white text-center p-4 z-50 mt-5">
     {notification}
   </div>
 {/if}
@@ -113,19 +113,21 @@
 {:else if error}
 <div class="flex items-center justify-center h-screen">Error: {error}</div>
 {:else}
-<div class="flex items-center justify-center h-screen w-4/5 mx-auto">
-  <div class="max-w-6xl mx-auto p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="flex items-center justify-center h-4/5 w-screen mx-auto mt-48">
+  <div class="max-w-full mx-auto p-8 grid grid-cols-1 lg:grid-cols-2 gap-80">
     <!-- Product Image -->
     <div class="flex justify-center">
       <img
-        class="rounded-lg border border-gray-200"
+        class="rounded-3xl border border-gray-200 "
+        width="440px"
+        height="530px"
         src={env.PUBLIC_URL}image/{productDetail.id}.jpg
         alt={productDetail.productDisplayName}
       />
     </div>
 
     <!-- Product Details -->
-    <div class="flex flex-col">
+    <div class="flex flex-col justify-center">
       <!-- Product Name -->
       <h1 class="text-3xl font-bold text-gray-800 mb-4">{productDetail.productDisplayName}</h1>
 
@@ -145,23 +147,23 @@
         <h3 class="text-lg font-semibold mb-2">Choose Size</h3>
         <div class="flex space-x-4">
           <button 
-            class="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 {selectedSize === 'small' ? 'bg-black text-white' : ''}"
-            on:click={() => selectSize('small')}>
+            class="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 {selectedSize === 'Small' ? 'bg-black text-white' : ''}"
+            on:click={() => selectSize('Small')}>
             Small
           </button>
           <button 
-            class="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 {selectedSize === 'medium' ? 'bg-black text-white' : ''}"
-            on:click={() => selectSize('medium')}>
+            class="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 {selectedSize === 'Medium' ? 'bg-black text-white' : ''}"
+            on:click={() => selectSize('Medium')}>
             Medium
           </button>
           <button 
-            class="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 {selectedSize === 'large' ? 'bg-black text-white' : ''}"
-            on:click={() => selectSize('large')}>
+            class="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 {selectedSize === 'Large' ? 'bg-black text-white' : ''}"
+            on:click={() => selectSize('Large')}>
             Large
           </button>
           <button 
-            class="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 {selectedSize === 'x-large' ? 'bg-black text-white' : ''}"
-            on:click={() => selectSize('x-large')}>
+            class="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 {selectedSize === 'X-Large' ? 'bg-black text-white' : ''}"
+            on:click={() => selectSize('X-Large')}>
             X-Large
           </button>
         </div>
