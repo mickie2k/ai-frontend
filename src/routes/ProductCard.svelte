@@ -7,7 +7,7 @@
 
 <div class="group relative">
 	<div
-		class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
+		class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 transition duration-300"
 	>
 		<img
 			src="{env.PUBLIC_URL}image/{productId}.jpg"

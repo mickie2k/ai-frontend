@@ -113,7 +113,7 @@
 {:else if error}
 <div class="flex items-center justify-center h-screen">Error: {error}</div>
 {:else}
-<div class="flex items-center justify-center h-4/5 w-screen mx-auto mt-48">
+<div class="flex items-center justify-center h-4/5 w-full mx-auto ">
   <div class="max-w-full mx-auto p-8 grid grid-cols-1 lg:grid-cols-2 gap-80">
     <!-- Product Image -->
     <div class="flex justify-center">

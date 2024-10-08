@@ -40,8 +40,9 @@
 	}
 
 	function onSubmit() {
+		console.log(selected)
 		const formData = new FormData();
-		// formData.append('selection', selected);
+		formData.append('selection', selected);
 		// formData.append('value' , files.name)
 		formData.append('file', files);
 		const upload = fetch(env.PUBLIC_URL + 'upload', {
@@ -129,14 +130,14 @@
 									type="radio"
 									id="category-clothing"
 									name="category"
-									value="category-clothing"
+									value="Apparel"
 									class="hidden peer"
 									required
 									on:change={onChangeRadio}
 								/>
 								<label
 									for="category-clothing"
-									class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700"
+									class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700 transition duration-300"
 								>
 									<div class="block">
 										<div class="w-full text-lg font-semibold">Clothing</div>
@@ -149,13 +150,13 @@
 									type="radio"
 									id="category-accessories"
 									name="category"
-									value="category-accessories"
+									value="Accessories"
 									class="hidden peer"
 									on:change={onChangeRadio}
 								/>
 								<label
 									for="category-accessories"
-									class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700"
+									class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700 transition duration-300"
 								>
 									<div class="block">
 										<div class="w-full text-lg font-semibold">Accessories</div>
@@ -168,13 +169,13 @@
 									type="radio"
 									id="category-footwear"
 									name="category"
-									value="category-footwear"
+									value="Footwear"
 									class="hidden peer"
 									on:change={onChangeRadio}
 								/>
 								<label
 									for="category-footwear"
-									class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700"
+									class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700 transition duration-300"
 								>
 									<div class="block">
 										<div class="w-full text-lg font-semibold">Footwear</div>

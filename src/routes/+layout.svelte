@@ -8,7 +8,7 @@
 <div class="app">
 	<Navbar/>
 
-	<main class="pt-24">
+	<main class="">
 		<slot />
 	</main>
 
