@@ -6,7 +6,7 @@
 
 <div class="group relative">
 	<div
-		class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
+		class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80 transition duration-500"
 	>
 		<img
 			src="https://tailwindui.com/plus/img/ecommerce-images/product-page-01-related-product-01.jpg"

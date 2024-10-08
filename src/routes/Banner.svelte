@@ -120,7 +120,7 @@
                         <ul class="grid w-full gap-6 md:grid-cols-3">
                             <li>
                                 <input type="radio" id="category-clothing" name="category" value="category-clothing" class="hidden peer" required on:change={onChangeRadio}/>
-                                <label for="category-clothing" class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer  peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700 ">                           
+                                <label for="category-clothing" class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer  peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700 transition duration-500">                           
                                     <div class="block">
                                         <div class="w-full text-lg font-semibold">Clothing</div>
                                         <div class="w-full">Topwear, Bottomwear, etc.</div>
@@ -130,7 +130,7 @@
                             </li>
                             <li>
                                 <input type="radio" id="category-accessories" name="category" value="category-accessories" class="hidden peer" on:change={onChangeRadio}>
-                                <label for="category-accessories" class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer  peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700 ">
+                                <label for="category-accessories" class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer  peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700 transition duration-500">
                                     <div class="block">
                                         <div class="w-full text-lg font-semibold">Accessories</div>
                                         <div class="w-full">Watches, Belt, Wallet, etc.</div>
@@ -140,7 +140,7 @@
                             </li>
                             <li>
                                 <input type="radio" id="category-footwear" name="category" value="category-footwear" class="hidden peer" on:change={onChangeRadio}>
-                                <label for="category-footwear" class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer  peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700  ">
+                                <label for="category-footwear" class="inline-flex items-center justify-between w-full p-5 text-zinc-400 bg-zinc-800 border border-zinc-600 rounded-lg cursor-pointer  peer-checked:bg-gray-100 peer-checked:text-gray-600 hover:text-zinc-50 hover:bg-zinc-700  transition duration-500">
                                     <div class="block">
                                         <div class="w-full text-lg font-semibold">Footwear</div>
                                         <div class="w-full">Flip Flops, Sandal, Shoes</div>
@@ -149,7 +149,7 @@
                                 </label>
                             </li>
                         </ul>
-                        <button class="mt-9 py-3 px-14  rounded-full max-w-fit bottom-0  text-black bg-gray-100 border border-zinc-600 cursor-pointer   hover:text-gray-900 hover:bg-gray-300">Next</button>
+                        <button class="mt-9 py-3 px-14  rounded-full max-w-fit bottom-0  text-black bg-gray-100 border border-zinc-600 cursor-pointer   hover:text-gray-900 hover:bg-gray-300 transition duration-500">Next</button>
                         </form>
 			
 				</div>

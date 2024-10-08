@@ -52,10 +52,7 @@
 		<ChooseSizeButton text="Meduim"></ChooseSizeButton>
 		<ChooseSizeButton text="Large"></ChooseSizeButton>
 		<ChooseSizeButton text="X-Large"></ChooseSizeButton>
-		<!-- <ChooseSizeButton text="Small"></Button>
-		<Button text="Meduim"></Button>
-		<Button text="Large"></Button>
-		<Button text="X-Large"></Button> -->
+
 		<br /> <br />
 		<hr width="100%" size="2" />
 		<br />
