@@ -104,7 +104,7 @@
 				</div>
 			</div>
 
-			<div class="mx-auto mt-6 w-full  max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+			<div class="mx-auto mt-6 w-full  max-w-4xl flex-1 space-y-6 lg:mt-0 lg:max-w-full">
 				<div
 					class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 dark:black dark:white sm:p-6"
 				>
@@ -112,18 +112,18 @@
 
 					<div class="space-y-4">
 						<div class="space-y-2">
-							<dl class="flex items-center justify-between gap-4">
+							<dl class="flex items-center justify-between gap-32">
 								<dt class="text-base font-normal text-gray-500 dark:text-gray">Subtotal</dt>
 								<dd class="text-base font-medium text-gray-900 dark:text-black">${sum}</dd>
 							</dl>
 
-							<dl class="flex items-center justify-between gap-4">
+							<dl class="flex items-center justify-between gap-32">
 								<dt class="text-base font-normal text-gray-500 dark:text-gray">Delivery Fee</dt>
 								<dd class="text-base font-medium text-gray-900 dark:text-black">${fee}</dd>
 							</dl>
 
 							<dl
-								class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700"
+								class="flex items-center justify-between gap-32 border-t border-gray-200 pt-2 dark:border-gray-700"
 							>
 								<dt class="text-base font-bold text-gray-900 dark:text-black">Total</dt>
 								<dd class="text-base font-bold text-gray-900 dark:text-black">${sum + fee}</dd>

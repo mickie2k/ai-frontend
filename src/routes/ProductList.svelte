@@ -73,7 +73,7 @@
 	}
 
 	function smoothScrollTo() {
-		scrollElement('result-product')
+		scrollElement('result-product',{offset:-120})
 	}
 
 	async function viewMore(){
