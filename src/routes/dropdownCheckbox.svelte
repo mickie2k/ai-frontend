@@ -22,9 +22,9 @@
 		<div class="rounded-md bg-white">
 			{#each options as option}
 				<li class="rounded-md transition duration-500 ease-in-out hover:bg-slate-400">
-					<label class="flex items-center space-x-16 justify-end mr-2">
+					<label class="flex items-center space-x-16 justify-between mr-2 px-2">
 						<span>{option}</span>
-						<input type="radio" name="checkbox" value={option} on:click={() => selectedColor(option)}/>
+						<input type="radio" name="checkbox"  value={option} on:click={() => selectedColor(option)}/>
 					</label>
 				</li>
 			{/each}
