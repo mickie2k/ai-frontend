@@ -2,7 +2,7 @@
 	export let productName;
 	export let productPrice;
 	export let productId;
-		import { env } from '$env/dynamic/public'
+	import { env } from '$env/dynamic/public'
 </script>
 
 <div class="group relative">

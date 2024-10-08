@@ -11,7 +11,7 @@
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-					'ngrok-skip-browser-warning': 'true' 
+					'ngrok-skip-browser-warning': true 
                 },
             })
                   result = await response.json();
