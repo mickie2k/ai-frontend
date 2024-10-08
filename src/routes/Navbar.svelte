@@ -30,7 +30,7 @@
 	}
 </script>
 
-<header class="px-32 py-6 flex justify-center gap-10 items-center bg-white border-b border-b-gray-100 fixed w-full z-50 " > 
+<header class="px-32 py-6 flex justify-center gap-10 items-center bg-white border-b border-b-gray-100 fixed w-full z-50 border-inl" > 
     <a class="text-3xl font-bold" href="/">
         FASHIONIST
     </a>

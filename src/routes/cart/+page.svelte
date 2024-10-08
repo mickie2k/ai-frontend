@@ -13,7 +13,7 @@
 	onMount(async () => {
 		// if (typeof window !== 'undefined') {
 		// Safe to use localStorage
-		result = JSON.parse(localStorage.getItem('id')) || [];
+		result = JSON.parse(localStorage.getItem('cart')) || [];
 		if (result.length > 0) {
 			fetchResult();
 		}
@@ -29,69 +29,53 @@
 	}
 
 	async function fetchResult() {
-		try {
-			sum = 0;
-			// Make sure the env.PUBLIC_URL is correctly set
-			let ids = '';
-			result.forEach((element) => {
-				ids += element + ',';
-			});
-			ids = ids.slice(0, -1);
+	try {
+		sum = 0;
+		// สร้างสตริงของ ids จาก result ที่เป็น array ของ { productId, size }
+		let ids = result.map(item => item.productId).join(',');
 
-			const response = await fetch(`${env.PUBLIC_URL}getMultiple?ids=${ids}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					'ngrok-skip-browser-warning': 'true'
-				}
-			});
-
-			// Check if the response is okay
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
+		const response = await fetch(`${env.PUBLIC_URL}getMultiple?ids=${ids}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'ngrok-skip-browser-warning': 'true'
 			}
+		});
 
-			// Parse the JSON response
-			resultProducts = await response.json();
-			console.log('Fetched products:', resultProducts); // Log the results
-			resultProducts.forEach((result) => {
-				sum += result.price;
-			});
-			fee = 100
-			
-
-			// Assuming you want to store the result somewhere, like a Svelte store
-			// For example:
-			// productsStore.set(resultProducts);
-		} catch (error) {
-			console.error('Error fetching results:', error);
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
 		}
+
+		resultProducts = await response.json();
+		console.log('Fetched products:', resultProducts);
+
+		// คำนวณยอดรวม
+		resultProducts.forEach((product) => {
+			sum += product.price;
+		});
+		fee = 100;
+
+	} catch (error) {
+		console.error('Error fetching results:', error);
+	}
+}
+
+
+	$: if (deleteId) {
+    resultProducts = resultProducts.filter(product => product.id !== deleteId);
+    sum = resultProducts.reduce((acc, product) => acc + product.price, 0);
+
+    result = result.filter(item => item.productId !== deleteId);
+    localStorage.setItem('cart', JSON.stringify(result));
+
+    deleteId = 0; // Reset the deleteId after deletion
 	}
 
-	    $: if (deleteId) {
-			console.log(deleteId+"Frompage")
-			// Remove the product from resultProducts when deleteId is set
-			resultProducts = resultProducts.filter(product => product.id !== deleteId);
-			sum = resultProducts.reduce((acc, product) => acc + product.price, 0); // Recalculate total
-			// Initialize result as an array
 
-
-				// Log result to ensure it's an array
-				console.log("Before filter, result is:", typeof result, result);
-
-				// Use filter to remove the specific item
-				result = result.filter(item => item !== deleteId);
-
-				// Log result after filter to confirm it's still an array
-				console.log("After filter, result is:", typeof result, result);
-				localStorage.setItem('id', JSON.stringify(result))
-				deleteId = 0; // Reset deleteId after deleting
-				
-    	}
-		$: if(result.length == 0){
-			sum = 0
-			fee = 0
-		}
+	$: if(result.length == 0){
+		sum = 0
+		fee = 0
+	}
 </script>
 
 <section class="bg-white py-8 antialiased md:py-16">
@@ -107,6 +91,8 @@
 								productId={resultProduct.id}
 								productName={resultProduct.productDisplayName}
 								productPrice={resultProduct.price}
+								productColor={resultProduct.baseColour}
+								size={result.find(item => item.productId === resultProduct.id).size}
 								bind:deleteProductID={deleteId}
 							/>
 						{:else}
@@ -118,7 +104,7 @@
 				</div>
 			</div>
 
-			<div class="mx-auto mt-6 w-full  max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+			<div class="mx-auto mt-6 w-full  max-w-4xl flex-1 space-y-6 lg:mt-0 lg:max-w-full">
 				<div
 					class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 dark:black dark:white sm:p-6"
 				>
@@ -126,18 +112,18 @@
 
 					<div class="space-y-4">
 						<div class="space-y-2">
-							<dl class="flex items-center justify-between gap-4">
+							<dl class="flex items-center justify-between gap-32">
 								<dt class="text-base font-normal text-gray-500 dark:text-gray">Subtotal</dt>
 								<dd class="text-base font-medium text-gray-900 dark:text-black">${sum}</dd>
 							</dl>
 
-							<dl class="flex items-center justify-between gap-4">
+							<dl class="flex items-center justify-between gap-32">
 								<dt class="text-base font-normal text-gray-500 dark:text-gray">Delivery Fee</dt>
 								<dd class="text-base font-medium text-gray-900 dark:text-black">${fee}</dd>
 							</dl>
 
 							<dl
-								class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700"
+								class="flex items-center justify-between gap-32 border-t border-gray-200 pt-2 dark:border-gray-700"
 							>
 								<dt class="text-base font-bold text-gray-900 dark:text-black">Total</dt>
 								<dd class="text-base font-bold text-gray-900 dark:text-black">${sum + fee}</dd>

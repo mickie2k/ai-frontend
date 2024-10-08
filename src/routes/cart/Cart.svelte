@@ -4,6 +4,8 @@
 	export let productPrice;
 	export let productId;
 	export let deleteProductID;
+	export let productColor;
+	export let size;
 
 	
 	// let quantities = [1];
@@ -38,11 +40,17 @@
 			/>
 		</a>
 		<div class="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-			<a href="/detail/{productId}" class="text-base font-black text-gray-900 hover:underline dark:text-black"
+			<a href="/detail/{productId}" class="text-2xl font-black text-gray-900 hover:underline dark:text-black"
 				>{productName}</a
 			>
 			<div class="flex items-center gap-4">
-				<p class="text-base font-semibold text-gray-900 dark:text-black">${productPrice}</p>
+				<p class="text-base font-normal text-gray-900 dark:text-black">Size: {size}</p>
+			</div>
+			<div class="flex items-center gap-4">
+				<p class="text-base font-normal text-gray-900 dark:text-black">Color: {productColor}</p>
+			</div>
+			<div class="flex items-center gap-4">
+				<p class="text-xl font-black text-gray-900 dark:text-black">${productPrice}</p>
 			</div>
 		</div>
 		</div>
