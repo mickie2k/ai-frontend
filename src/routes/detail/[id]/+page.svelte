@@ -32,7 +32,7 @@
       loadProductDetails();
     }
   });
-
+ 
   // ฟังก์ชันดึงข้อมูลจาก API
   async function loadProductDetails() {
     try {
