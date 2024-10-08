@@ -74,7 +74,7 @@
       notification = '';
     }, 3000);
 
-    console.log('Added to cart:', cartItem);
+    console.log('Added to cart:', cart);
   }
 
   // function increment() {
