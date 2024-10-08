@@ -20,7 +20,7 @@
 	 <Banner/>
 
 	<div class="grid grid-cols-4 gap-8 px-32 bg-white w-full h-full ">
-		<div class=" bg-none w-full my-10 border rounded-md pl-5 pt-5  h-fit ">
+		<div class=" bg-none w-full my-10 border rounded-md px-5 pt-5  h-fit ">
 			<!-- ใส่ filter ตรงนี้ -->
 			 <Filter/>
 		</div>

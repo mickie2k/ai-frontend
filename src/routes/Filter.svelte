@@ -58,9 +58,9 @@
 	}
 </script>
 
-<div class="mt-5 space-y-7">
+<div class="mt-5 space-y-7 w-full ">
 	<h1><strong>Filters</strong></h1>
-	<hr class="" width="90%" size="2" />
+	<hr class="" width="100%" size="2" />
 	<MergeDropdown
 		bind:master={masterCategory}
 		bind:sub={subCategory}
@@ -68,10 +68,10 @@
 		bind:color={baseColour}
 		bind:style={usage}
 	/>
-	<hr class="" width="90%" size="2" />
+	<hr class="" width="100%" size="2" />
 	<h1><strong>Price</strong></h1>
 	<InputRange bind:minVal={min_price} bind:maxVal={max_price} />
-	<hr width="90%" size="2" />
+	<hr width="100%" size="2" />
 	<DropdownFirst bind:selectedStyle={usage} bind:color={baseColour} />
 	<div class="flex w-full justify-center pt-10 pb-7">
 		<button
